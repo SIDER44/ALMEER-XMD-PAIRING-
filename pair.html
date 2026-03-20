@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ALMEER XMD — Pairing Code</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #0a0a0f;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      color: #fff;
+      padding: 20px;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(124,58,237,0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(124,58,237,0.06) 1px, transparent 1px);
+      background-size: 40px 40px;
+      z-index: 0;
+    }
+
+    .card {
+      position: relative;
+      z-index: 1;
+      background: #13102a;
+      border: 1px solid #2d1f5e;
+      border-radius: 20px;
+      padding: 36px 28px;
+      width: 100%;
+      max-width: 400px;
+      box-shadow: 0 0 40px rgba(124,58,237,0.18);
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 24px;
+      background: linear-gradient(135deg, #a78bfa, #22d3ee);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 6px;
+    }
+    .sub { color: #6b7280; font-size: 13px; margin-bottom: 28px; }
+
+    /* Input row */
+    .input-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+    .input-row input {
+      flex: 1;
+      background: #0d0b18;
+      border: 1px solid #3b2d6b;
+      border-radius: 10px;
+      padding: 12px 14px;
+      color: #e2d9f3;
+      font-size: 15px;
+      outline: none;
+      transition: border-color .2s;
+    }
+    .input-row input:focus { border-color: #a78bfa; }
+    .input-row input::placeholder { color: #4b5563; }
+
+    .btn-get {
+      background: linear-gradient(135deg, #7c3aed, #a78bfa);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 12px 20px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: opacity .2s;
+    }
+    .btn-get:hover { opacity: .88; }
+    .btn-get:disabled { opacity: .5; cursor: not-allowed; }
+
+    /* Status / code display */
+    #status {
+      min-height: 36px;
+      font-size: 14px;
+      color: #9ca3af;
+      margin-bottom: 8px;
+    }
+
+    .code-box {
+      display: none;
+      background: #0d0b18;
+      border: 2px solid #7c3aed;
+      border-radius: 14px;
+      padding: 20px 12px;
+      margin: 16px 0;
+    }
+    .code-text {
+      font-family: 'Courier New', monospace;
+      font-size: 36px;
+      font-weight: bold;
+      letter-spacing: 6px;
+      color: #a78bfa;
+      text-shadow: 0 0 14px rgba(167,139,250,.4);
+    }
+    .btn-copy {
+      margin-top: 12px;
+      background: #1e1a36;
+      border: 1px solid #4c3d7a;
+      color: #c4b5fd;
+      border-radius: 8px;
+      padding: 7px 20px;
+      font-size: 13px;
+      cursor: pointer;
+      transition: background .2s;
+    }
+    .btn-copy:hover { background: #2d2550; }
+
+    .steps {
+      background: #0d0b18;
+      border-radius: 12px;
+      padding: 14px 16px;
+      text-align: left;
+      margin-top: 14px;
+    }
+    .steps p { color: #9ca3af; font-size: 13px; margin: 5px 0; }
+    .steps p b { color: #e2d9f3; }
+
+    .hint { margin-top: 16px; color: #4b5563; font-size: 12px; }
+    .hint a { color: #7c3aed; text-decoration: none; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>🤖 ALMEER XMD</h1>
+    <p class="sub">Enter your WhatsApp number to get a pairing code</p>
+
+    <div class="input-row">
+      <input
+        type="tel"
+        id="numInput"
+        placeholder="2547XXXXXXXX (with country code)"
+        inputmode="numeric"
+      >
+      <button class="btn-get" id="getBtn">GET CODE</button>
+    </div>
+
+    <div id="status"></div>
+
+    <div class="code-box" id="codeBox">
+      <div class="code-text" id="codeText"></div>
+      <button class="btn-copy" id="copyBtn" onclick="copyCode()">📋 Copy Code</button>
+    </div>
+
+    <div class="steps">
+      <p>📱 <b>How to link:</b></p>
+      <p>1️⃣ Open <b>WhatsApp</b> on your phone</p>
+      <p>2️⃣ Tap <b>⋮ Menu → Linked Devices</b></p>
+      <p>3️⃣ Tap <b>"Link a Device"</b></p>
+      <p>4️⃣ Tap <b>"Link with phone number"</b></p>
+      <p>5️⃣ Enter the code shown above ☝️</p>
+      <p>6️⃣ Wait — your <b>SESSION_ID</b> will arrive on WhatsApp ✅</p>
+    </div>
+
+    <p class="hint">
+      ← <a href="/">Back to home</a> &nbsp;|&nbsp;
+      Need help? <a href="https://wa.me/254720313769" target="_blank">Contact us</a>
+    </p>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js"></script>
+  <script>
+    const numInput = document.getElementById('numInput');
+    const getBtn   = document.getElementById('getBtn');
+    const status   = document.getElementById('status');
+    const codeBox  = document.getElementById('codeBox');
+    const codeText = document.getElementById('codeText');
+
+    getBtn.addEventListener('click', async () => {
+      const raw = numInput.value.replace(/[^0-9]/g, '');
+
+      if (!raw) {
+        status.innerHTML = '<span style="color:#f87171">❌ Please enter your number</span>';
+        return;
+      }
+      if (raw.length < 7) {
+        status.innerHTML = '<span style="color:#f87171">❌ Number too short — include country code</span>';
+        return;
+      }
+
+      getBtn.disabled = true;
+      codeBox.style.display = 'none';
+      status.innerHTML = '⏳ Requesting pairing code...';
+
+      try {
+        const { data } = await axios.get(`/code?number=${raw}`);
+        const code = data.code || 'Service Unavailable';
+
+        if (code.startsWith('❌') || code.startsWith('❗') || code === 'Service Unavailable') {
+          status.innerHTML = `<span style="color:#f87171">${code}</span>`;
+          getBtn.disabled = false;
+          return;
+        }
+
+        // Format: XXXXXXXX → XXXX-XXXX
+        const formatted = code.replace(/(.{4})(.{4})/, '$1-$2');
+        codeText.textContent = formatted;
+        codeBox.style.display = 'block';
+        status.innerHTML = '<span style="color:#34d399">✅ Code ready! Enter it in WhatsApp.</span>';
+
+        // Re-enable after 60s (code expiry)
+        setTimeout(() => { getBtn.disabled = false; }, 60000);
+
+      } catch (err) {
+        status.innerHTML = '<span style="color:#f87171">❌ Server error. Try again.</span>';
+        getBtn.disabled = false;
+      }
+    });
+
+    function copyCode() {
+      const text = codeText.textContent.replace('-', '');
+      navigator.clipboard.writeText(text).then(() => {
+        const btn = document.getElementById('copyBtn');
+        btn.textContent = '✅ Copied!';
+        setTimeout(() => btn.textContent = '📋 Copy Code', 1500);
+      });
+    }
+
+    // Allow Enter key
+    numInput.addEventListener('keydown', e => {
+      if (e.key === 'Enter') getBtn.click();
+    });
+  </script>
+</body>
+</html>

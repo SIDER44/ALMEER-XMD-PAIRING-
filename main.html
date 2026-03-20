@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ALMEER XMD — Session Generator</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #0a0a0f;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      color: #fff;
+      overflow-x: hidden;
+    }
+
+    /* Animated background grid */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(124,58,237,0.07) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(124,58,237,0.07) 1px, transparent 1px);
+      background-size: 40px 40px;
+      z-index: 0;
+    }
+
+    .wrap {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+      padding: 20px;
+      width: 100%;
+      max-width: 420px;
+    }
+
+    /* Logo / title */
+    .logo {
+      font-size: 36px;
+      font-weight: 900;
+      letter-spacing: 2px;
+      background: linear-gradient(135deg, #a78bfa, #22d3ee);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 4px;
+    }
+    .logo-sub {
+      color: #6b7280;
+      font-size: 13px;
+      margin-bottom: 24px;
+    }
+
+    /* Buttons */
+    .btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      padding: 15px 20px;
+      border-radius: 14px;
+      border: 1px solid transparent;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: transform .15s, box-shadow .15s;
+      position: relative;
+      overflow: hidden;
+    }
+    .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,.4); }
+    .btn:active { transform: translateY(0); }
+
+    .btn-pair {
+      background: linear-gradient(135deg, #7c3aed, #a78bfa);
+      color: #fff;
+      border-color: #7c3aed;
+    }
+    .btn-qr {
+      background: linear-gradient(135deg, #0891b2, #22d3ee);
+      color: #fff;
+      border-color: #0891b2;
+    }
+    .btn-fork {
+      background: #161b22;
+      color: #e2d9f3;
+      border-color: #30363d;
+    }
+    .btn-channel {
+      background: linear-gradient(135deg, #15803d, #22c55e);
+      color: #fff;
+      border-color: #15803d;
+    }
+    .btn-error {
+      background: #1f0a0a;
+      color: #f87171;
+      border-color: #7f1d1d;
+    }
+
+    /* Animated border on pair button */
+    .btn-pair::before {
+      content: '';
+      position: absolute;
+      inset: -2px;
+      border-radius: 16px;
+      background: linear-gradient(45deg, #7c3aed, #22d3ee, #7c3aed);
+      background-size: 300%;
+      z-index: -1;
+      animation: borderSpin 4s linear infinite;
+    }
+    @keyframes borderSpin {
+      0%   { background-position: 0% 50%; }
+      50%  { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* Glowing footer text */
+    .glow {
+      margin-top: 24px;
+      font-size: 12px;
+      color: #6b7280;
+      text-align: center;
+    }
+    .glow span {
+      color: #a78bfa;
+      animation: glowAnim 2s ease-in-out infinite alternate;
+    }
+    @keyframes glowAnim {
+      from { text-shadow: 0 0 4px #7c3aed; }
+      to   { text-shadow: 0 0 12px #a78bfa, 0 0 20px #7c3aed; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="logo">🤖 ALMEER XMD</div>
+    <p class="logo-sub">Session Generator — Choose your method</p>
+
+    <a href="/pair" class="btn btn-pair" target="_blank">
+      📱 PAIRING CODE
+    </a>
+
+    <a href="/qr" class="btn btn-qr" target="_blank">
+      📷 QR CODE
+    </a>
+
+    <a href="https://github.com/SIDER44/ALMEER-XMD3/fork" class="btn btn-fork" target="_blank">
+      ⭐ FORK ON GITHUB
+    </a>
+
+    <a href="https://whatsapp.com/channel/0029VbA6MSYJUM2TVOzCSb2A" class="btn btn-channel" target="_blank">
+      💬 WHATSAPP CHANNEL
+    </a>
+
+    <a href="https://wa.me/254720313769" class="btn btn-error" target="_blank">
+      ❗ NEED HELP?
+    </a>
+
+    <p class="glow">Powered by <span>ALMEER XMD</span> &copy; 2025</p>
+  </div>
+</body>
+</html>

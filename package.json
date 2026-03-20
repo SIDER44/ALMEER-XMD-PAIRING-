@@ -1,0 +1,22 @@
+{
+  "name": "almeer-xmd-pair-site",
+  "version": "1.0.0",
+  "description": "ALMEER XMD Session Generator",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "@whiskeysockets/baileys": "^6.7.9",
+    "@hapi/boom": "^10.0.1",
+    "axios": "^1.6.0",
+    "body-parser": "^1.20.2",
+    "express": "^4.18.2",
+    "form-data": "^4.0.0",
+    "pino": "^8.16.0",
+    "qrcode": "^1.5.3"
+  },
+  "engines": {
+    "node": "20.x"
+  }
+}

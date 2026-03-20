@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ALMEER XMD — QR Code</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #0a0a0f;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      color: #fff;
+      padding: 20px;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(6,182,212,0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(6,182,212,0.05) 1px, transparent 1px);
+      background-size: 40px 40px;
+      z-index: 0;
+    }
+
+    .card {
+      position: relative;
+      z-index: 1;
+      background: #0d1117;
+      border: 1px solid #1e3a4a;
+      border-radius: 20px;
+      padding: 36px 28px;
+      width: 100%;
+      max-width: 400px;
+      box-shadow: 0 0 40px rgba(6,182,212,0.12);
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 24px;
+      background: linear-gradient(135deg, #22d3ee, #a78bfa);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 6px;
+    }
+    .sub { color: #6b7280; font-size: 13px; margin-bottom: 24px; }
+
+    /* QR image container */
+    .qr-wrap {
+      background: #fff;
+      border-radius: 16px;
+      padding: 14px;
+      display: inline-block;
+      margin: 0 auto 20px;
+      box-shadow: 0 0 24px rgba(34,211,238,.2);
+    }
+    #qrImg {
+      display: block;
+      width: 220px;
+      height: 220px;
+      border-radius: 8px;
+    }
+
+    /* Spinner shown before QR loads */
+    .spinner {
+      width: 220px;
+      height: 220px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .spin {
+      width: 50px; height: 50px;
+      border: 4px solid #1e3a4a;
+      border-top-color: #22d3ee;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .timer {
+      background: #0a1929;
+      border: 1px solid #1e3a4a;
+      border-radius: 8px;
+      padding: 9px 14px;
+      color: #67e8f9;
+      font-size: 12px;
+      margin-bottom: 16px;
+    }
+
+    .steps {
+      background: #0a1929;
+      border-radius: 12px;
+      padding: 14px 16px;
+      text-align: left;
+    }
+    .steps p { color: #9ca3af; font-size: 13px; margin: 5px 0; }
+    .steps p b { color: #e2d9f3; }
+
+    .hint { margin-top: 16px; color: #4b5563; font-size: 12px; }
+    .hint a { color: #22d3ee; text-decoration: none; }
+
+    #status { margin-bottom: 12px; font-size: 13px; color: #9ca3af; min-height: 20px; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>🤖 ALMEER XMD</h1>
+    <p class="sub">Scan this QR code with WhatsApp</p>
+
+    <div id="status">⏳ Loading QR code...</div>
+
+    <div class="qr-wrap">
+      <div class="spinner" id="spinner"><div class="spin"></div></div>
+      <img id="qrImg" style="display:none" alt="QR Code">
+    </div>
+
+    <div class="timer" id="timer">⏳ QR expires in <span id="countdown">60</span>s — refreshes automatically</div>
+
+    <div class="steps">
+      <p>📱 <b>How to scan:</b></p>
+      <p>1️⃣ Open <b>WhatsApp</b> on your phone</p>
+      <p>2️⃣ Tap <b>⋮ Menu → Linked Devices</b></p>
+      <p>3️⃣ Tap <b>"Link a Device"</b></p>
+      <p>4️⃣ Point camera at the QR code ☝️</p>
+      <p>5️⃣ Wait — your <b>SESSION_ID</b> will arrive on WhatsApp ✅</p>
+    </div>
+
+    <p class="hint">
+      ← <a href="/">Back to home</a>
+    </p>
+  </div>
+
+  <script>
+    let countdown = 60;
+    let timer;
+
+    function loadQR() {
+      const img      = document.getElementById('qrImg');
+      const spinner  = document.getElementById('spinner');
+      const status   = document.getElementById('status');
+      const cdEl     = document.getElementById('countdown');
+
+      spinner.style.display = 'flex';
+      img.style.display     = 'none';
+      status.textContent    = '⏳ Loading QR code...';
+
+      clearInterval(timer);
+      countdown = 60;
+      cdEl.textContent = countdown;
+
+      // Add timestamp to bust cache
+      img.onload = () => {
+        spinner.style.display = 'none';
+        img.style.display     = 'block';
+        status.textContent    = '✅ Scan with WhatsApp now!';
+
+        timer = setInterval(() => {
+          countdown--;
+          cdEl.textContent = countdown;
+          if (countdown <= 0) {
+            clearInterval(timer);
+            loadQR(); // auto-refresh
+          }
+        }, 1000);
+      };
+
+      img.onerror = () => {
+        status.textContent = '❌ Failed to load QR. Retrying...';
+        setTimeout(loadQR, 3000);
+      };
+
+      img.src = '/server?' + Date.now();
+    }
+
+    loadQR();
+  </script>
+</body>
+</html>
